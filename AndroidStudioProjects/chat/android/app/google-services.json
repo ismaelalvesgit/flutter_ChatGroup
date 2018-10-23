@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "628739858271",
+    "firebase_url": "https://chatteste-69146.firebaseio.com",
+    "project_id": "chatteste-69146",
+    "storage_bucket": "chatteste-69146.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628739858271:android:6cc1e4bab1f128f1",
+        "android_client_info": {
+          "package_name": "com.ismael.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "628739858271-5vdo7igetqh1iq19kkoemelf35t8n3aj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNEKcJjjOr7fxK87nMroUCcN29yBx8EBw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
