@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chat/models/user_model.dart';
 import 'package:chat/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -90,8 +92,10 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w500),
                                 validator: (text) {
-                                  if (text.isEmpty) {
-                                    return "Email esta invalido";
+                                  if(text.isEmpty){
+                                    return "Email e requirido";
+                                  }else if (!text.contains("@")){
+                                    return "Emalil está invalido";
                                   }
                                 },
                               ),
@@ -112,8 +116,10 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w500),
                                 validator: (text) {
-                                  if (text.isEmpty || text.length < 6) {
-                                    return "Senha esta incorreta !!";
+                                  if(text.isEmpty ){
+                                    return "Senha e requirida !!";
+                                  }else if (text.length < 6){
+                                    return "No minimo 6 caracteres";
                                   }
                                 },
                               ),
@@ -137,7 +143,17 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                                 border: Border.all(color: Colors.black45, width: 5.0,),
                               ),
                               child: IconButton(
-                                onPressed: (){},
+                                onPressed: (){
+                                  if(_formKey.currentState.validate()){
+                                    Map<String, dynamic> userData = {
+                                      "name": _nameController.text,
+                                      "email":_emailController.text,
+                                      "photo":""
+                                    };
+
+                                    model.singUp(userData, _passwordController.text, _onSuccess, _onFail);
+                                  }
+                                },
                                 icon: Icon(Icons.arrow_forward, color: Colors.white,),
                                 tooltip: "Cadastrar",
                               )
@@ -154,13 +170,23 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
   }
 
   void _onSuccess() {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginScreen()));
+    _scaffoldKey.currentState.showSnackBar(
+        SnackBar(content: Text("Cadastro feito com Sucesso !!!",),
+          backgroundColor: Colors.greenAccent,
+          duration: Duration(seconds: 5),
+        )
+    );
+
+    Future.delayed(Duration(seconds: 2)).then((_){
+      Navigator.of(context).pop();
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => LoginScreen()));
+    });
   }
 
   void _onFail() {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text("Falha ao Entrar!"),
+      content: Text("Falha ao Cadastrar!"),
       backgroundColor: Colors.redAccent,
       duration: Duration(seconds: 2),
     ));
