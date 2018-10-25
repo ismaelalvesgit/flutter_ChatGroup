@@ -16,10 +16,21 @@ class UserModel extends Model{
 
   Map<String, dynamic> userData = Map();
 
+  @override
+  void addListener(VoidCallback listener) {
+    super.addListener(listener);
+
+    _loadCurrentUser();
+  }
+
   static UserModel of(BuildContext context) =>
       ScopedModel.of<UserModel>(context);
 
-   void singIn(String email, String pass, VoidCallback onSuccess, VoidCallback onFail) async{
+  bool isLoggedIn(){
+    return currentUser != null;
+  }
+
+  void singIn(String email, String pass, VoidCallback onSuccess, VoidCallback onFail) async{
 
      isLogging = true;
      notifyListeners();

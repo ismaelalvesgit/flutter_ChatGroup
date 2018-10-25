@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "628739858271",
-    "firebase_url": "https://chatteste-69146.firebaseio.com",
-    "project_id": "chatteste-69146",
-    "storage_bucket": "chatteste-69146.appspot.com"
+    "project_number": "2486820457",
+    "firebase_url": "https://chat-2e7c4.firebaseio.com",
+    "project_id": "chat-2e7c4",
+    "storage_bucket": "chat-2e7c4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:628739858271:android:6cc1e4bab1f128f1",
+        "mobilesdk_app_id": "1:2486820457:android:6cc1e4bab1f128f1",
         "android_client_info": {
           "package_name": "com.ismael.chat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "628739858271-5vdo7igetqh1iq19kkoemelf35t8n3aj.apps.googleusercontent.com",
+          "client_id": "2486820457-qdvg97duuq6ighduhnikltoe4mf4jts0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ismael.chat",
+            "certificate_hash": "581c07cd94b6b091e7ce9f27c99cde2a0e41a168"
+          }
+        },
+        {
+          "client_id": "2486820457-9ve4k0nomfpuuuc71trcqf92tkgq3u7t.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCNEKcJjjOr7fxK87nMroUCcN29yBx8EBw"
+          "current_key": "AIzaSyA-09uys5uHbt74NdvDp2BJLrXCLhzDIXg"
         }
       ],
       "services": {
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2486820457-9ve4k0nomfpuuuc71trcqf92tkgq3u7t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

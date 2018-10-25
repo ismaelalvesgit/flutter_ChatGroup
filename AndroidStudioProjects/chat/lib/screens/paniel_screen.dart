@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:chat/models/message_model.dart';
 import 'package:chat/models/user_model.dart';
 import 'package:chat/screens/login_screen.dart';
+import 'package:chat/screens/message_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -51,40 +53,43 @@ class _PainelScreenState extends State<PainelScreen> {
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (context, index){
                     List d = snapshot.data.documents.toList();
-                    return InkWell(
-                      onTap: (){},
-                      child: Card(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                width: 80.0,
-                                height: 80.0,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: d[index].data["photo"] == null ? AssetImage("imagens/person.png") : NetworkImage(d[index].data["photo"]),
-                                        fit: BoxFit.fill
-                                    )
+
+                      return InkWell(
+                        onTap: (){
+                          MessageModel.of(context).roomId(model.currentUser.uid, d[index].data["uid"]);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MessageScreen()));
+                        },
+                        child: Card(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: 80.0,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: d[index].data["photo"] != "" ? NetworkImage(d[index].data["photo"]) : AssetImage("imagens/person.png"),
+                                          fit: BoxFit.fill
+                                      )
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(d[index].data["email"]),
-                                    Text(d[index].data["name"])
-                                  ],
-                                ),
-                              )
-                            ],
+                                Padding(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(d[index].data["email"]),
+                                      Text(d[index].data["name"])
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-
+                      );
                   },
                 );
                 }
@@ -92,41 +97,6 @@ class _PainelScreenState extends State<PainelScreen> {
           )
         );
       },
-    );
-  }
-
-  Widget _widgetListUsers( Map<String, dynamic> users){
-    print(users["email"]);
-    return InkWell(
-      onTap: (){},
-      child: Card(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-          child: Row(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: NetworkImage(users["photo"]),
-                        fit: BoxFit.fill
-                    )
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(users["email"]),
-                    Text(users["name"])
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
     );
   }
 
