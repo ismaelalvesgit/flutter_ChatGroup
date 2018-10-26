@@ -6,11 +6,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class MessageScreen extends StatefulWidget {
+
+  final String room;
+
+  MessageScreen({Key key, this.room}) : super (key: key) ;
+
   @override
-  _MessageScreenState createState() => _MessageScreenState();
+  _MessageScreenState createState() => _MessageScreenState( room: this.room);
 }
 
 class _MessageScreenState extends State<MessageScreen> {
+
+  final String room;
+
+  _MessageScreenState({ Key key ,this.room});
+
   final _msgController = TextEditingController();
 
   bool _isComposing = false;
@@ -33,14 +43,10 @@ class _MessageScreenState extends State<MessageScreen> {
                 children: <Widget>[
                   Expanded(
                       child: StreamBuilder(
-                          stream: Firestore.instance.collection("chat").document(model.room).collection("message").orderBy("date").snapshots(),
+                          stream: Firestore.instance.collection("chat").document(room).collection("messagem").orderBy("date").snapshots(),
                           builder: (context, snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.none:
-                              case ConnectionState.waiting:
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
                               default:
                                 return ListView.builder(
                                     reverse: true,
@@ -105,7 +111,7 @@ class _MessageScreenState extends State<MessageScreen> {
                   });
                 },
                 onSubmitted: (text) {
-                  MessageModel.of(context).sendMessage(_msgController.text, UserModel.of(context).currentUser.email,  MessageModel.of(context).room);
+                  MessageModel.of(context).sendMessage(_msgController.text, UserModel.of(context).currentUser.email, room);
                   _reset();
                 },
               ),
@@ -116,13 +122,13 @@ class _MessageScreenState extends State<MessageScreen> {
                     ? CupertinoButton(
                         child: Text("Enviar"),
                         onPressed: _isComposing ? () {
-                          MessageModel.of(context).sendMessage(_msgController.text, UserModel.of(context).currentUser.email,  MessageModel.of(context).room);
+                          MessageModel.of(context).sendMessage(_msgController.text, UserModel.of(context).currentUser.email, room);
                           _reset();
                         } : null)
                     : IconButton(
                         icon: Icon(Icons.send),
                         onPressed: _isComposing ? () {
-                          MessageModel.of(context).sendMessage(_msgController.text, UserModel.of(context).currentUser.email,  MessageModel.of(context).room);
+                          MessageModel.of(context).sendMessage(_msgController.text, UserModel.of(context).currentUser.email,  room);
                           _reset();
                         } : null)),
           ],
@@ -136,6 +142,13 @@ class _MessageScreenState extends State<MessageScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: Row(
         children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(right: 16.0),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_03.jpg"),
+            ),
+          ),
           Expanded(
               child: Container(
             decoration: BoxDecoration(
@@ -192,6 +205,13 @@ class _MessageScreenState extends State<MessageScreen> {
                   )
                 ],
               ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 16.0),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  UserModel.of(context).userData["photo"]),
             ),
           ),
         ],

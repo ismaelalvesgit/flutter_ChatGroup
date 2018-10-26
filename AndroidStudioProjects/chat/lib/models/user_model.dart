@@ -12,6 +12,8 @@ class UserModel extends Model{
 
   FirebaseUser currentUser;
 
+  bool isAdmin = false;
+
   bool isLogging = false;
 
   Map<String, dynamic> userData = Map();
@@ -37,10 +39,10 @@ class UserModel extends Model{
      await _auth.signInWithEmailAndPassword(email: email, password: pass).then((user) async{
 
        isLogging = false;
-       notifyListeners();
        currentUser = user;
        await _loadCurrentUser();
        onSuccess();
+       notifyListeners();
      }).catchError((e){
 
        isLogging = false;
@@ -64,6 +66,8 @@ class UserModel extends Model{
        onFail();
      });
    }
+
+
 
    void resetPass(String email, VoidCallback onSuccess, VoidCallback onFail) async{
      isLogging = true;
@@ -93,6 +97,9 @@ class UserModel extends Model{
          "uid": s.uid,
          "name": userData["name"],
          "email": userData["email"],
+         "inadmin":false,
+         "view":false,
+         "cont":0,
          "photo": ""
        });
       onSuccess();
@@ -102,7 +109,8 @@ class UserModel extends Model{
        onFail();
      });
    }
-  Future<Null> _loadCurrentUser() async {
+
+   Future<Null> _loadCurrentUser() async {
     if(currentUser == null)
       currentUser = await _auth.currentUser();
     if(currentUser != null){
@@ -110,6 +118,7 @@ class UserModel extends Model{
         DocumentSnapshot docUser =
         await Firestore.instance.collection("users").document(currentUser.uid).get();
         userData = docUser.data;
+        print(userData["inadmin"]);
       }
     }
     notifyListeners();

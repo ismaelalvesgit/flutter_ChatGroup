@@ -8,7 +8,7 @@ class MessageModel extends Model{
 
 
   Firestore _db = Firestore.instance;
-  String room;
+
   @override
   void addListener(VoidCallback listener) {
     super.addListener(listener);
@@ -17,10 +17,9 @@ class MessageModel extends Model{
   static MessageModel of(BuildContext context)=>
       ScopedModel.of<MessageModel>(context);
 
-
    String roomId(String uid1, String uid2 ){
     String roomID;
-    if( uid1.hashCode < uid2.hashCode){
+    if( uid1.hashCode > uid2.hashCode){
       notifyListeners();
       roomID = "$uid1$uid2";
     }else{
@@ -28,18 +27,17 @@ class MessageModel extends Model{
       roomID = "$uid2$uid1";
     }
     notifyListeners();
-    room = roomID;
-    print(room);
+    print(roomID);
     return roomID;
 
    }
 
   void sendMessage( String msg, String email, String room){
 
-     _db.collection("chat").document(room).collection("message").add({
+     _db.collection("chat").document(room).collection("messagem").add({
        "msg":msg,
        "email":email,
-       "date": DateTime.now()
+       "date":DateTime.now()
      });
   }
 }

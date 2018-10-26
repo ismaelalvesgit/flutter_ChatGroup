@@ -39,8 +39,9 @@ class _PainelScreenState extends State<PainelScreen> {
               ),
             ],
           ),
-          body: StreamBuilder <QuerySnapshot>(
-              stream: Firestore.instance.collection("users").snapshots(),
+          body: StreamBuilder (
+
+              stream: model.userData["inadmin"] ? Firestore.instance.collection("users").where("inadmin", isEqualTo: false).snapshots() : Firestore.instance.collection("users").where("inadmin", isEqualTo: true).snapshots(),
               builder: (context, snapshot){
                 switch (snapshot.connectionState) {
                 case ConnectionState.none:
@@ -56,8 +57,8 @@ class _PainelScreenState extends State<PainelScreen> {
 
                       return InkWell(
                         onTap: (){
-                          MessageModel.of(context).roomId(model.currentUser.uid, d[index].data["uid"]);
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MessageScreen()));
+                          String _roomID = MessageModel.of(context).roomId( d[index].data["uid"], model.currentUser.uid);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MessageScreen(room: _roomID,)));
                         },
                         child: Card(
                           child: Container(
